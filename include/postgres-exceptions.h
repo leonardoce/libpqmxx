@@ -22,10 +22,56 @@
 #pragma once
 
 #include <stdexcept>
+#include <sstream>
 
 namespace db {
   namespace postgres {
     
+    /**
+     * An exception that is raised when you try to read a value from a
+     * query result using the wrong c++ type.
+     */
+    class TypeException : public std::exception {
+    private:
+      std::string expectedType;
+      std::string message;
+
+    public:
+      const char * what() const throw () {
+        return message.c_str();
+      };
+
+      TypeException(const std::string &pExpectedType): expectedType(pExpectedType) {
+        message = "Unexpected C++ type. Please use as<" + expectedType
+          + ">(int column)";
+      }
+
+      const std::string& GetExpectedType() const throw () {
+        return expectedType;
+      }
+    };
+
+    class UnsupportedTypeException : public std::exception {
+    private:
+      int unsupportedOid;
+      std::string message;
+
+    public:
+      const char *what() const throw () {
+        return message.c_str();
+      }
+
+      UnsupportedTypeException(int pUnsupportedOid): unsupportedOid(pUnsupportedOid) {
+        std::stringstream s;
+        s << "Unsupported PostgreSQL type with OID " << unsupportedOid;
+        message += s.str();
+      }
+
+      int GetUnsupportedOID() {
+        return unsupportedOid;
+      }
+    };
+
     /**
      * Exception thrown on connection failure.
      **/

@@ -30,30 +30,6 @@ namespace db {
     class Result;
 
     /**
-     * An exception that is raised when you try to read a value from a
-     * query result using the wrong c++ type.
-     */
-    class TypeException : std::exception {
-    private:
-      std::string expectedType;
-      std::string message;
-
-    public:
-      const char * what() const throw () {
-        return message.c_str();
-      };
-
-      TypeException(const std::string &pExpectedType): expectedType(pExpectedType) {
-        message = "Unexpected C++ type. Please use as<" + expectedType
-          + ">(int column)";
-      };
-
-      const std::string& GetExpectedType() const throw () {
-        return expectedType;
-      }
-    };
-
-    /**
      * A row in a Result.
      *
      * Rows can be accessed using the Result::iterator except the first one

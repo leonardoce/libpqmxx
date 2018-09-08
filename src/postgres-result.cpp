@@ -55,7 +55,7 @@ namespace db {
           case INTERVALOID: _expected = "db::postgres::interval_t"; break;
           case TIMETZOID: _expected = "db::postgres::timetz_t"; break;
           default:
-            assert(false); // unsupported type. try std::string
+            throw UnsupportedTypeException(expected);
         }
 
         throw TypeException(_expected);
