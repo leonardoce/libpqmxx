@@ -148,6 +148,14 @@ namespace db {
     }
 
     // -------------------------------------------------------------------------
+    // Get the column type OID
+    // -------------------------------------------------------------------------
+    int Row::columnTypeOID(int column) const noexcept {
+      assert(result_.pgresult_ != nullptr);
+      return PQftype(result_, column);
+    }
+
+    // -------------------------------------------------------------------------
     // Get a column name.
     // -------------------------------------------------------------------------
     const char *Row::columnName(int column) const {

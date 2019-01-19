@@ -137,6 +137,14 @@ namespace db {
       const char *columnName(int column) const;
 
       /**
+       * Get the column type using the PostgreSQL OID
+       *
+       * @param column Column number. Column numbers start at 0.
+       * @return The column type OID.
+       */
+      int columnTypeOID(int column) const noexcept;
+
+      /**
        * Get the row number.
        *
        * @return For each row returned by a query, num() returns a number
